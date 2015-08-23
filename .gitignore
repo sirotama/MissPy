@@ -58,4 +58,5 @@ target/
 
 # Keys
 
-src/key.txt
+src/appkey.txt
+src/userkey.txt

@@ -1,12 +1,32 @@
 #encoding:utf-8
 import requests
 import json
+import webbrowser
+import sys
 from PyQt4 import QtGui, QtCore
 
 UpdateAPIURL = 'https://api.misskey.xyz/status/update'
 TimeLineAPIURL = 'https://api.misskey.xyz/rest/status/timeline'
-userkey = 
-appkey = 
+GetSessionkeyAPIURL = 'https://api.misskey.xyz/sauth/get-authentication-session-key'
+GetPINCodeAPIURL = 'https://api.misskey.xyz/authorize@'
+appkeyfile = open('appkey.txt')
+appkeyjson = {'sauth-app-key': appkeyfile.read()}
+appkeyfile.close()
+r = requests.get(GetSessionkeyAPIURL,headers=appkeyjson)
+getSessionKeyResponse = r.text
+sessionKey = json.loads(getSessionKeyResponse)['authenticationSessionKey']
+
+webbrowser.open_new_tab(GetPINCodeAPIURL + sessionKey)
+print("ENTER PIN CODE HERE:")
+PINCode = sys.stdin.readline()
+
+GetUserKeyAPIURL = 'https://api.misskey.xyz/sauth/get-user-key?' + 'pin-code=' + PINCode + '&' + 'authentication-session-key=' + sessionKey
+r = requests.get(GetUserKeyAPIURL, headers=appkeyjson)
+print(r.text)
+print(GetUserKeyAPIURL)
+
+   
+'''
 keys = {'sauth-app-key': appkey,'sauth-user-key': userkey ,'Content-Type': 'application/x-www-form-urlencoded'}
 class MissPyMain(QtGui.QWidget):
 
@@ -14,7 +34,8 @@ class MissPyMain(QtGui.QWidget):
         super(MissPyMain,self).__init__()
         self.initUI()
 
-    def initUI(self): 
+    def initUI(self):
+        if 
         self.setWindowTitle('MissPy')
         self.UpdateText = QtGui.QTextEdit(self)
         self.UpdateText.move(0,650)
@@ -38,3 +59,4 @@ if __name__ == '__main__':
     window = MissPyMain()
     window.show()
     sys.exit(app.exec_())
+'''
