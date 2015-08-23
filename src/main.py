@@ -19,10 +19,13 @@ sessionKey = json.loads(getSessionKeyResponse)['authenticationSessionKey']
 webbrowser.open_new_tab(GetPINCodeAPIURL + sessionKey)
 print("ENTER PIN CODE HERE:")
 PINCode = sys.stdin.readline()
-
 GetUserKeyAPIURL = 'https://api.misskey.xyz/sauth/get-user-key?' + 'pin-code=' + PINCode + '&' + 'authentication-session-key=' + sessionKey
-r = requests.get(GetUserKeyAPIURL, headers=appkeyjson)
-print(r.text)
+print(appkeyjson)
+print(sessionKey)
+print(PINCode)
+#r = requests.get('https://api.misskey.xyz/sauth/get-user-key?pin-code=pixol&authentication-session-key=kyoppie.VAkIgyfvKtTrtMPejSjQyBsaXucpegxi' + sessionKey, headers=appkeyjson)
+#print(r)
+#print(r.text)
 print(GetUserKeyAPIURL)
 
    
